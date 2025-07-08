@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  check:
     runs-on: ubuntu-latest
 
     steps:
@@ -49,10 +49,10 @@ jobs:
 
     - name: Deploy to server via SSH
       run: |
-        ssh -o StrictHostKeyChecking=no user@your.server.ip << 'EOF'
-        cd /path/to/your/app
+        ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+        cd /home/${{ secrets.SERVER_USER }}/Projects/gallereya/backend/
         git pull origin main
-        source /path/to/venv/bin/activate
+        source /home/${{ secrets.SERVER_USER }}/Projects/gallereya/backend/env/bin/activate
         pip install -r requirements.txt
-        sudo systemctl restart your-fastapi-service
+        sudo systemctl restart gallereya-backend.service
         EOF
