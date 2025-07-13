@@ -38,7 +38,7 @@ pipeline {
                     git pull origin main
                     source env/bin/activate
                     pip install -r requirements.txt
-                    sudo systemctl restart your-backend.service
+                    sudo systemctl restart gallereya-backend.service
                     EOF
                     """
                 }
