@@ -11,7 +11,7 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        git 'https://github.com/your-user/your-repo.git'
+        git 'git@github.com:abdulkhafizov07/gallereyauzbackend.git'
       }
     }
 
@@ -31,7 +31,7 @@ pipeline {
       steps {
         sh '''
           if [ -d tests ]; then
-            env/bin/python -m unittest discover tests || true
+            env/bin/python -m pytest || true
           fi
         '''
       }
