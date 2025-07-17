@@ -44,25 +44,15 @@ pipeline {
     }
 
     stage('Deploy') {
+      agent { label 'ls-1823' }
       steps {
-        sshagent (credentials: ['deploy-local-server-1823']) {
-          sh '''
-            ssh -o StrictHostKeyChecking=no a@10.0.18.23 << 'EOF'
-              set -e
-              DEPLOY_FOLDER="/home/a/gallereya/backend"
-              GITHUB_URL="git@github.com:abdulkhafizov07/gallereyauzbackend.git"
-
-              mkdir -p "${DEPLOY_FOLDER}"
-              if [ -d "${DEPLOY_FOLDER}/.git" ]; then
-                echo "Repo already exists at ${DEPLOY_FOLDER} - skipping clone."
-                cd "${DEPLOY_FOLDER}" && git pull
-              else
-                echo "Cloning for the first time"
-                git clone "${GITHUB_URL}" "${DEPLOY_FOLDER}"
-              fi
-            EOF
-          '''
-        }
+        sh '''
+          DEPLOY_DIR="/homa/a/gallereya/backend"
+          echo "Deploying on deploy server..."
+          mkdir -p "${DEPLOY_DIR}"
+          cp -r * "${DEPLOY_DIR}"
+          sudo systemctl restart gallereya-backend.service
+        '''
       }
     }
   }
