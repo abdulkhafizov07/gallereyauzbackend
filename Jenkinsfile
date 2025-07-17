@@ -46,11 +46,9 @@ pipeline {
     stage('Deploy') {
       steps {
         sh '''
-          pkill -f "uvicorn ${ENTRYPOINT}" || true
-          nohup ${UVICORN} ${ENTRYPOINT} --host 0.0.0.0 --port 8000 &
+        echo "Please, deploy app code."
         '''
       }
     }
   }
 }
-
