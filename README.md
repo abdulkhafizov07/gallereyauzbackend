@@ -1,5 +1,4 @@
-# Gallereya.uz Platform
+## Gallereya.UZ API
 
-
-This is image upload modern and interactive platform you can upload you images.
+This is api for gallereya.uz website
 
