@@ -48,7 +48,7 @@ pipeline {
         sshagent(['deploy-local-server-1823']) {
           sh '''
           scp -r ./ a@10.0.18.23:/home/a/gallereya/backend
-          ssh a@10.0.18.23 'sudo systemctl restart fastapi
+          ssh a@10.0.18.23 'sudo systemctl restart gallereya-backend.service'
           '''
         }
       }
