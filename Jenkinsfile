@@ -47,8 +47,10 @@ pipeline {
       steps {
         sshagent(['deploy-local-server-1823']) {
           sh '''
+          mkdir -p ~/.ssh
+          ssh-keyscan -H 10.0.18.23 >> ~/.ssh/known_hosts
           rsync -avz --exclude='env' ./ a@10.0.18.23:/home/a/gallereya/backend
-          ssh a@10.0.18.23 'sudo systemctl restart gallereya-backend.service'
+          ssh a@10.0.18.23 'cd /home/a/gallereya/backend && env/bin/pip install -r requirements.txt && sudo systemctl restart gallereya-backend.service'
           '''
         }
       }
