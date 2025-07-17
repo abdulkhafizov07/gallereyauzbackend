@@ -44,10 +44,31 @@ pipeline {
     }
 
     stage('Deploy') {
+      when {
+        branch 'main'
+      }
+
       steps {
-        sh '''
-        echo "Please, deploy app code."
-        '''
+        sshagent(['deploy-local-server-1823']) {
+          sh '''
+            mkdir -p ~/.ssh
+            ssh-keyscan -H 10.0.18.23 >> ~/.ssh/known_hosts
+
+            rsync -avz --exclude='env' --exclude='.git' ./ a@10.0.18.23:/home/a/gallereya/backend
+
+            ssh a@10.0.18.23 '
+              cd /home/a/gallereya/backend
+
+              if [ ! -d "env" ]; then
+                python3.12 -m venv env
+              fi
+
+              env/bin/pip install -r requirements.txt
+
+              sudo /bin/systemctl restart gallereya-backend.service
+            '
+          '''
+        }
       }
     }
   }
