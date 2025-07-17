@@ -25,8 +25,8 @@ pipeline {
           if [ ! -d env ]; then
             echo "Can not find virtualenv\nCreating it env"
             python3 -m venv env
-            echo "Virtualenv python version $(env/bin/python3 --version)"
           fi
+          echo "Virtualenv python version $(env/bin/python3 --version)"
           env/bin/pip install --upgrade pip
           env/bin/pip install -r requirements.txt
         '''
