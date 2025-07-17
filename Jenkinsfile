@@ -1,5 +1,7 @@
 pipeline {
-  agent any
+  agent {
+    label "python-agent"
+  }
 
   environment {
     VENV = "${WORKSPACE}/env"
@@ -18,9 +20,13 @@ pipeline {
     stage('Install Dependencies') {
       steps {
         sh '''
+          echo "Searching for virtualenv"
+          echo "System python version $(python3 --version)"
           if [ ! -d env ]; then
+            echo "Can not find virtualenv\nCreating it env"
             python3 -m venv env
           fi
+          echo "Virtualenv python version $(env/bin/python3 --version)"
           env/bin/pip install --upgrade pip
           env/bin/pip install -r requirements.txt
         '''
