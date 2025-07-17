@@ -45,10 +45,21 @@ pipeline {
 
     stage('Deploy') {
       steps {
-        withCredentials([sshUserPrivateKey(credentialsId: "deploy-local-server-1823", keyFileVariable: 'keyfile')]) {
-          sh '''echo "hello world" >> test.txt
-                pwd
-                # cat message.txt'''
+          sshagent (credentials: ['deploy-local-server-1823']) {
+            sh '''
+              ssh -o StrictHostKeyCheking=no a@10.0.18.23 << EOF
+                DEPLOY_FOLDER="/home/a/gallereya/backend"
+                GITHUB_URL="git@github.com:abdulkhafizov07/gallereyauzbackend.git"
+
+                mkdir -p "$DEPLOY_FOLDER"
+                if [ -d "$DEPLOY_FOLDER/.git" ]; then
+                  echo "Repo already exists at $DEPLOY_FOLDER - skipping clone."
+                else
+                  echo "Clonning for the first time"
+                  git clone "$GITHUB_URL" "$GITHUB_URL"
+                fi
+            '''
+          }
         }
       }
     }
