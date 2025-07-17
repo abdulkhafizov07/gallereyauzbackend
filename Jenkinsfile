@@ -20,8 +20,12 @@ pipeline {
     stage('Install Dependencies') {
       steps {
         sh '''
+          echo "Searching for virtualenv"
+          echo "System python version $(python3 --version)"
           if [ ! -d env ]; then
+            echo "Can not find virtualenv\nCreating it env"
             python3 -m venv env
+            echo "Virtualenv python version $(env/bin/python3 --version)"
           fi
           env/bin/pip install --upgrade pip
           env/bin/pip install -r requirements.txt
