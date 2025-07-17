@@ -47,7 +47,7 @@ pipeline {
       steps {
           sshagent (credentials: ['deploy-local-server-1823']) {
             sh '''
-            ssh -o StrictHostKeyCheking=no a@10.0.18.23 << EOF
+            ssh -o StrictHostKeyChecking=no a@10.0.18.23 << EOF
               DEPLOY_FOLDER="/home/a/gallereya/backend"
               GITHUB_URL="git@github.com:abdulkhafizov07/gallereyauzbackend.git"
 
