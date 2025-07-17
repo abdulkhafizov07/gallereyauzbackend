@@ -13,7 +13,7 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        git 'git@github.com:abdulkhafizov07/gallereyauzbackend.git'
+        checkout scm
       }
     }
 
