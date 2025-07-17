@@ -58,7 +58,7 @@ pipeline {
                 cd "${DEPLOY_FOLDER}" && git pull
               else
                 echo "Cloning for the first time"
-                git clone "$GITHUB_URL" "$DEPLOY_FOLDER"
+                git clone "${GITHUB_URL}" "${DEPLOY_FOLDER}"
               fi
             EOF
           '''
