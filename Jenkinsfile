@@ -46,7 +46,8 @@ pipeline {
     stage('Deploy') {
       steps {
         withCredentials([sshUserPrivateKey(credentialsId: "deploy-local-server-1823", keyFileVariable: 'keyfile')]) {
-          sh 'echo "hello world" > test.txt'
+          sh '''echo "hello world" >> test.txt
+                cat message.txt'''
         }
       }
     }
