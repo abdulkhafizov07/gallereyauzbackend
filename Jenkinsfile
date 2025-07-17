@@ -1,5 +1,5 @@
 pipeline {
-  agent { label 'docker-agent' }
+  agent { label 'test-linux-agent-1' }
 
   environment {
     VENV = "${WORKSPACE}/env"
