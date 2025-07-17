@@ -50,6 +50,7 @@ pipeline {
           scp -r ./ a@10.0.18.23:/home/a/app/
           ssh a@10.0.18.23 'sudo systemctl restart fastapi'
           '''
+        }
       }
     }
   }
