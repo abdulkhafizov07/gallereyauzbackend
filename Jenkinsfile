@@ -44,15 +44,12 @@ pipeline {
     }
 
     stage('Deploy') {
-      agent { label 'ls-1823' }
       steps {
-        sh '''
-          DEPLOY_DIR="/homa/a/gallereya/backend"
-          echo "Deploying on deploy server..."
-          mkdir -p "${DEPLOY_DIR}"
-          cp -r * "${DEPLOY_DIR}"
-          sudo systemctl restart gallereya-backend.service
-        '''
+        sshagent(['deploy-local-server-1823']) {
+          sh '''
+          scp -r ./ a@10.0.18.23:/home/a/app/
+          ssh a@10.0.18.23 'sudo systemctl restart fastapi'
+          '''
       }
     }
   }
