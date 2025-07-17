@@ -45,10 +45,9 @@ pipeline {
 
     stage('Deploy') {
       steps {
-        sh '''
-          pkill -f "uvicorn ${ENTRYPOINT}" || true
-          nohup ${UVICORN} ${ENTRYPOINT} --host 0.0.0.0 --port 8000 &
-        '''
+        withCredentials([sshUserPrivateKey(credentialsId: "deploy-local-server-1823", keyFileVariable: 'keyfile')]) {
+          sh 'echo "hello world" > test.txt'
+        }
       }
     }
   }
