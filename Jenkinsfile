@@ -1,5 +1,5 @@
 pipeline {
-  agent any
+  agent { label 'docker-agent' }
 
   environment {
     VENV = "${WORKSPACE}/env"
@@ -39,9 +39,7 @@ pipeline {
 
     stage('Deploy') {
       steps {
-        sh '''
-        echo "Please, deploy app code."
-        '''
+        sh 'echo "Please, deploy app code."'
       }
     }
   }
