@@ -61,7 +61,7 @@ pipeline {
 
               env/bin/pip install -r requirements.txt
 
-              sudo systemctl restart gallereya-backend.service
+              sudo /bin/systemctl restart gallereya-backend.service
             '
           '''
         }
