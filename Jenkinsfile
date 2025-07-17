@@ -56,7 +56,7 @@ pipeline {
               cd /home/a/gallereya/backend
 
               if [ ! -d "env" ]; then
-                python3 -m venv env
+                python3.12 -m venv env
               fi
 
               env/bin/pip install -r requirements.txt
