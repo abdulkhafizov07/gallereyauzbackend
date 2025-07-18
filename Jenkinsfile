@@ -5,8 +5,8 @@ pipeline {
 
   environment {
     VENV = "${WORKSPACE}/env"
-    PYTHON = "${WORKSPACE}/env/bin/python"
-    UVICORN = "${WORKSPACE}/env/bin/uvicorn"
+    PYTHON = "${VENV}/bin/python"
+    UVICORN = "${VENV}/bin/uvicorn"
     ENTRYPOINT = "main:app"
   }
 
@@ -20,26 +20,36 @@ pipeline {
     stage('Install Dependencies') {
       steps {
         sh '''
-          echo "Searching for virtualenv"
-          echo "System python version $(python3 --version)"
           if [ ! -d env ]; then
-            echo "Can not find virtualenv\nCreating it env"
+            echo "Creating virtual environment"
             python3 -m venv env
           fi
-          echo "Virtualenv python version $(env/bin/python3 --version)"
-          env/bin/pip install --upgrade pip
-          env/bin/pip install -r requirements.txt
+          make install-dev
         '''
+      }
+    }
+
+    stage('Format & Lint') {
+      steps {
+        sh 'make format lint'
+      }
+    }
+
+    stage('Build') {
+      steps {
+        sh 'make build'
       }
     }
 
     stage('Run Tests') {
       steps {
-        sh '''
-          if [ -d tests ]; then
-            env/bin/python -m pytest || true
-          fi
-        '''
+        sh 'make test'
+      }
+    }
+
+    stage('Clean') {
+      steps  {
+        sh 'make clean'
       }
     }
 
@@ -47,27 +57,9 @@ pipeline {
       when {
         branch 'main'
       }
-
       steps {
         sshagent(['deploy-local-server-1823']) {
-          sh '''
-            mkdir -p ~/.ssh
-            ssh-keyscan -H 10.0.18.23 >> ~/.ssh/known_hosts
-
-            rsync -avz --exclude='env' --exclude='.git' ./ a@10.0.18.23:/home/a/gallereya/backend
-
-            ssh a@10.0.18.23 '
-              cd /home/a/gallereya/backend
-
-              if [ ! -d "env" ]; then
-                python3.12 -m venv env
-              fi
-
-              env/bin/pip install -r requirements.txt
-
-              sudo /bin/systemctl restart gallereya-backend.service
-            '
-          '''
+          sh './deploy.sh'
         }
       }
     }

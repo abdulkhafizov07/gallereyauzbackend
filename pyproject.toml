@@ -1,0 +1,28 @@
+[tool.black]
+line-length = 88
+target-version = ['py310']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.venv
+  | \.mypy_cache
+  | \.pytest_cache
+  | \.git
+  | \.tox
+  | env
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 88
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+combine_as_imports = true
+use_parentheses = true
+known_first_party = ["app", "models", "schemas"]
+known_third_party = ["fastapi", "sqlmodel", "pydantic", "sqlalchemy"]
+skip = ["env", ".venv", "migrations"]
