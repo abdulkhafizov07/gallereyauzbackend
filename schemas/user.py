@@ -1,7 +1,7 @@
-import uuid
-from pydantic import BaseModel, EmailStr, Field, validator
-from typing import Optional
 import re
+from typing import Optional
+
+from pydantic import BaseModel, EmailStr, Field, validator
 
 
 class UserRead(BaseModel):
@@ -37,8 +37,14 @@ class UserCreate(BaseModel):
     def validate_phone(cls, v):
         uzbek_pattern = r"^\+?998\d{9}$"
         if not re.match(uzbek_pattern, v):
-            raise ValueError("Phone number must be a valid Uzbekistan number starting with +998 or 998")
+            raise ValueError(
+                (
+                    "Phone number must be a valid Uzbekistan"
+                    " number starting with +998 or 998"
+                )
+            )
         return v
+
 
 class UserUpdate(BaseModel):
     first_name: str

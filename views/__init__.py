@@ -1,9 +1,10 @@
 import hashlib
-import uuid
 import os
 import time
-import asyncio
-from fastapi.responses import ORJSONResponse, JSONResponse, UJSONResponse
+import uuid
+
+from fastapi.responses import JSONResponse, ORJSONResponse, UJSONResponse
+
 from config import app
 
 
@@ -15,7 +16,7 @@ def generate_single_item(i: int) -> dict:
         "md5": hashlib.md5(hex_i).hexdigest(),
         "sha1": hashlib.sha1(hex_i).hexdigest(),
         "urandom": os.urandom(25).hex(),
-        "image": f"https://example.com/uploads/some_images/im{i}.jpg"
+        "image": f"https://example.com/uploads/some_images/im{i}.jpg",
     }
 
 
