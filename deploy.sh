@@ -13,7 +13,7 @@ echo "Syncing project to remote server..."
 rsync -avz \
   --exclude='env' \
   --exclude='.git' \
-  --exclude='tests'
+  --exclude='tests' \
   ./ a@10.0.18.23:/home/a/gallereya/backend
 
 echo "Project synced."
@@ -26,18 +26,13 @@ set -x
 
 cd /home/a/gallereya/backend
 
-echo "Checking virtual environment..."
 if [ ! -d "env" ]; then
   echo "Creating Python venv..."
   python3.12 -m venv env
 fi
 
-echo "Installing requirements..."
-env/bin/pip install --upgrade pip
-env/bin/pip install -r requirements.txt
-
-echo "Running Alembic migrations..."
-env/bin/alembic upgrade head
+make install
+make build
 
 echo "Restarting systemd service..."
 sudo /bin/systemctl restart gallereya-backend.service
