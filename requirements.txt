@@ -11,3 +11,5 @@ email-validator
 passlib
 bcrypt
 alembic
+aiosqlite
+python-dotenv
