@@ -202,3 +202,4 @@ pyrightconfig.json
 
 
 *.local
+test.py
