@@ -2,7 +2,6 @@ import uuid
 from typing import Optional
 
 from fastapi import Depends, Request
-
 from fastapi_users import BaseUserManager, FastAPIUsers, UUIDIDMixin
 from fastapi_users.authentication import (
     AuthenticationBackend,
@@ -11,16 +10,18 @@ from fastapi_users.authentication import (
 )
 from fastapi_users_db_sqlmodel import SQLModelUserDatabaseAsync
 
-from settings import USERS_SECRET_TOKEN
 from config.database import get_user_db
 from models.user import UserModel
+from settings import USERS_SECRET_TOKEN
 
 
 class UserManager(UUIDIDMixin, BaseUserManager[UserModel, uuid.UUID]):
     reset_password_token_secret = USERS_SECRET_TOKEN
     verification_token_secret = USERS_SECRET_TOKEN
 
-    async def on_after_register(self, user: UserModel, request: Optional[Request] = None):
+    async def on_after_register(
+        self, user: UserModel, request: Optional[Request] = None
+    ):
         print(f"User {user.id} has registered.")
 
     async def on_after_forgot_password(
@@ -34,7 +35,9 @@ class UserManager(UUIDIDMixin, BaseUserManager[UserModel, uuid.UUID]):
         print(f"Verification requested for user {user.id}. Verification token: {token}")
 
 
-async def get_user_manager(user_db: SQLModelUserDatabaseAsync = Depends(get_user_db)):
+async def get_user_manager(
+    user_db: SQLModelUserDatabaseAsync = Depends(get_user_db),  # noqa: B008
+):
     yield UserManager(user_db)
 
 

@@ -1,5 +1,6 @@
-import settings
 from fastapi import FastAPI
+
+import settings  # noqa
 from routers import auth_router
 
 app = FastAPI(debug=True)

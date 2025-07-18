@@ -1,4 +1,4 @@
-import settings # noqa
-from config import * # noqa
-from routers import * # noqa
-import views
+import settings  # noqa
+import views  # noqa
+from config import *  # noqa
+from routers import *  # noqa

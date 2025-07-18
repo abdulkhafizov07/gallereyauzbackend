@@ -1,6 +1,6 @@
+import logging
 import os
 from logging.config import fileConfig
-import logging
 
 from dotenv import load_dotenv
 
@@ -32,12 +32,13 @@ DATABASE_URL = os.getenv("ALEMBIC_DATABASE_URL")
 if not DATABASE_URL:
     raise RuntimeError("ALEMBIC_DATABASE_URL environment variable is not set")
 
-TEST_DATABASE_URL = os.getenv('TEST_DATABASE_URL')
+TEST_DATABASE_URL = os.getenv("TEST_DATABASE_URL")
 if TEST_DATABASE_URL:
     DATABASE_URL = TEST_DATABASE_URL
 
 # Inject DB URL into Alembic config
 config.set_main_option("sqlalchemy.url", DATABASE_URL)
+
 
 def run_migrations_offline() -> None:
     """Run Alembic migrations in 'offline' mode."""

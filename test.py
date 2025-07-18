@@ -1,20 +1,23 @@
 import asyncio
-import httpx
 import statistics
 import time
 from typing import Optional
+
+import httpx
 
 TEST_COUNT = 1000
 MAX_CONCURRENT_REQUESTS = 4  # limit to 4 at a time
 
 ENDPOINTS = {
-    "orjson": "http://127.0.0.1:8000/orjson",
-    "ujson": "http://127.0.0.1:8000/ujson",
-    "json": "http://127.0.0.1:8000/json"
+    "orjson": "https://api.gallereya.infinite-co.uz/orjson",
+    "ujson": "https://api.gallereya.infinite-co.uz/ujson",
+    "json": "https://api.gallereya.infinite-co.uz/json",
 }
 
 
-async def fetch(client: httpx.AsyncClient, name: str, url: str, semaphore: asyncio.Semaphore) -> Optional[dict]:
+async def fetch(
+    client: httpx.AsyncClient, name: str, url: str, semaphore: asyncio.Semaphore
+) -> Optional[dict]:
     async with semaphore:
         try:
             start = time.perf_counter()
@@ -54,21 +57,27 @@ async def benchmark(name: str, url: str) -> dict:
         "max_duration": max(durations),
         "min_response_time": min(response_times),
         "max_response_time": max(response_times),
-        "count": len(results)
+        "count": len(results),
     }
 
 
 def print_metric(metric: dict):
-    print(f"📊 {metric['name']} ({metric['count']} runs):")
-    print(f"  ➤ Avg execution time (duration): {metric['avgfor']:.6f} sec")
-    print(f"  ➤ Avg response time:            {metric['avgrestime']:.6f} sec")
-    print(f"  ➤ Min/Max duration:             {metric['min_duration']:.6f} / {metric['max_duration']:.6f} sec")
-    print(f"  ➤ Min/Max response time:        {metric['min_response_time']:.6f} / {metric['max_response_time']:.6f} sec")
+    print(f"{metric['name']} ({metric['count']} runs):")
+    print(f"Avg execution time (duration): {metric['avgfor']:.6f}sec")
+    print(f"Avg response time: {metric['avgrestime']:.6f}sec")
+    print(
+        f"Min/Max duration: {metric['min_duration']:.6f}/{metric['max_duration']:.6f}sec"  # noqa: E501
+    )
+    print(
+        f"Min/Max response time: {metric['min_response_time']:.6f} / {metric['max_response_time']:.6f} sec"  # noqa: E501
+    )
     print()
 
 
 async def main():
-    metrics = await asyncio.gather(*(benchmark(name, url) for name, url in ENDPOINTS.items()))
+    metrics = await asyncio.gather(
+        *(benchmark(name, url) for name, url in ENDPOINTS.items())
+    )
     for metric in metrics:
         print_metric(metric)
 
