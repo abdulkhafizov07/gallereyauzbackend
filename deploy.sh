@@ -32,6 +32,7 @@ set -x
 
 cd /home/a/gallereya/backend
 
+make install
 make build
 
 sudo /bin/systemctl restart gallereya-backend.service
