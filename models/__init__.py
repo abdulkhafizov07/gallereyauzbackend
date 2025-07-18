@@ -1,2 +1,2 @@
-from .image import ImageModel
-from .user import UserModel
+from .image import *  # noqa
+from .user import *  # noqa

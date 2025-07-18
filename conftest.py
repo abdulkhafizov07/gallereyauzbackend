@@ -2,7 +2,7 @@ import os
 
 import pytest
 from sqlalchemy import create_engine
-from sqlmodel import Session, SQLModel
+from sqlmodel import Session
 
 from alembic import command
 from alembic.config import Config

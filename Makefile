@@ -1,49 +1,32 @@
-.PHONY: build dev install install-dev
+VENV = env
+PIP = $(VENV)/bin/pip
+
+.PHONY: build dev install install-dev format lint test clean ci
 
 build:
-	alembic upgrade head  # Run database migrations
+	$(VENV)/bin/alembic upgrade head
 
 dev:
-	uvicorn main:app --reload  # Start FastAPI with auto-reload
+	$(VENV)/bin/uvicorn main:app --reload
 
 install:
-	pip install -r requirements.txt
+	$(PIP) install -r requirements.txt
 
 install-dev:
-	pip install -r requirements.txt -r requirements-dev.txt
-
-.PHONY: format lint check
+	$(PIP) install -r requirements.txt -r requirements-dev.txt
 
 format:
-	black .
-	isort .
+	$(VENV)/bin/black .
+	$(VENV)/bin/isort .
 
 lint:
-	flake8 . --count
-
-check:
-	pre-commit run --all-files
-
-.PHONY: test coverage
+	$(VENV)/bin/flake8 . --count
 
 test:
-	pytest
-
-coverage:
-	pytest --cov=app --cov-report=term --cov-report=html
-
-.PHONY: clean tags bump
+	$(VENV)/bin/pytest
 
 clean:
 	find . -type d -name "__pycache__" -exec rm -r {} +
-	rm -rf .pytest_cache .mypy_cache dist
-
-tags:
-	git tag -l
-
-bump:
-	bumpversion patch  # or minor / major
-
-.PHONY: ci
+	rm -rf .pytest_cache .mypy_cache dist htmlcov
 
 ci: install-dev format lint test
