@@ -36,7 +36,7 @@ pipeline {
     stage('Prepare database') {
       steps {
         sh '''
-          alembic upgrade head
+          env/bin/alembic upgrade head
         '''
       }
     }
