@@ -10,8 +10,13 @@ class UserModel(SQLModel, table=True):
     guid: uuid.UUID = Field(
         default_factory=uuid.uuid4, primary_key=True, nullable=False
     )
+    
+    first_name: str
+    middle_name: str
+    last_name: str
 
-    email: EmailStr
+    email: EmailStr = Field(nullable=True)
+    phone: str
     password: str
 
     is_active: bool = Field(True, nullable=False)
