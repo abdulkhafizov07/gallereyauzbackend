@@ -34,7 +34,7 @@ pipeline {
     }
 
     stage('Prepare database') {
-      setps {
+      steps {
         sh '''
           alembic upgrade head
         '''
