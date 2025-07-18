@@ -24,7 +24,7 @@ pipeline {
             echo "Creating virtual environment"
             python3 -m venv env
           fi
-          make install
+          make install-dev
         '''
       }
     }
