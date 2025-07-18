@@ -2,23 +2,8 @@
 set -e
 set -x
 
-echo "Starting deploy process..."
-
-echo "Setting up SSH known_hosts..."
 mkdir -p ~/.ssh
 ssh-keyscan -H 10.0.18.23 >> ~/.ssh/known_hosts
-echo "Server keys added to known_hosts"
-
-echo "Syncing project to remote server..."
-rsync -avz \
-  --exclude='env' \
-  --exclude='.git' \
-  --exclude='tests' \
-  ./ a@10.0.18.23:/home/a/gallereya/backend
-
-echo "Project synced."
-
-echo "Executing remote deployment tasks..."
 
 ssh a@10.0.18.23 <<'EOF'
 set -e
@@ -31,13 +16,25 @@ if [ ! -d "env" ]; then
   python3.12 -m venv env
 fi
 
-make install
+make clean
+rm /home/a/gallereya/backend/alembic/versions/*
+EOF
+
+rsync -avz \
+  --exclude='env' \
+  --exclude='.git' \
+  --exclude='tests' \
+  ./ a@10.0.18.23:/home/a/gallereya/backend
+
+ssh a@10.0.18.23 <<'EOF'
+set -e
+set -x
+
+cd /home/a/gallereya/backend
+
 make build
 
-echo "Restarting systemd service..."
 sudo /bin/systemctl restart gallereya-backend.service
-
-echo "Remote deployment complete!"
 EOF
 
 echo "Deployment finished successfully."
