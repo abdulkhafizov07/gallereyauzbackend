@@ -33,11 +33,19 @@ pipeline {
       }
     }
 
+    stage('Prepare database') {
+      setps {
+        sh '''
+          alembic upgrade head
+        '''
+      }
+    }
+
     stage('Run Tests') {
       steps {
         sh '''
           if [ -d tests ]; then
-            env/bin/python -m pytest || true
+            env/bin/python -m pytest
           fi
         '''
       }
@@ -64,6 +72,7 @@ pipeline {
               fi
 
               env/bin/pip install -r requirements.txt
+              env/bin/alembic upgrade head
 
               sudo /bin/systemctl restart gallereya-backend.service
             '
