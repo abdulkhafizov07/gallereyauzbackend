@@ -1,0 +1,17 @@
+fastapi
+uvicorn
+gunicorn
+sqlmodel
+sqlalchemy
+fastapi-users
+fastapi-users-db-sqlalchemy
+fastapi-users-db-sqlmodel
+python-multipart
+email-validator
+passlib
+bcrypt
+alembic
+aiosqlite
+python-dotenv
+orjson
+ujson
