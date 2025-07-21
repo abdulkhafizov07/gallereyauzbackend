@@ -1,15 +1,10 @@
-import uuid
-
 from pydantic import EmailStr
-from sqlmodel import Field, SQLModel
+from sqlmodel import Field
+from .time_stamped_uuid import TimeStampedUUIDModel
 
 
-class UserModel(SQLModel, table=True):
+class UserModel(TimeStampedUUIDModel, table=True):
     __tablename__ = "user_model"
-
-    guid: uuid.UUID = Field(
-        default_factory=uuid.uuid4, primary_key=True, nullable=False
-    )
 
     first_name: str
     middle_name: str

@@ -1,4 +1,3 @@
-import uuid
 import pytest
 from sqlmodel import select
 from models.user import UserModel
@@ -26,8 +25,8 @@ class TestUserModel:
         session.commit()
         session.refresh(user)
 
-        assert user.guid is not None
-        assert isinstance(user.guid, uuid.UUID)
+        assert user.uid is not None
+        assert isinstance(user.uid, str)
         assert user.email == user_data["email"]
 
     def test_bulk_create_users(self, session):
@@ -116,7 +115,7 @@ class TestUserModel:
         session.commit()
 
         updated = session.exec(
-            select(UserModel).where(UserModel.guid == user.guid)
+            select(UserModel).where(UserModel.uid == user.uid)
         ).first()
         assert updated.email == "updated@example.com"
 
@@ -129,7 +128,7 @@ class TestUserModel:
         session.commit()
 
         deleted = session.exec(
-            select(UserModel).where(UserModel.guid == user.guid)
+            select(UserModel).where(UserModel.uid == user.uid)
         ).first()
         assert deleted is None
 

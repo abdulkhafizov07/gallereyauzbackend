@@ -20,7 +20,7 @@ class TestImageModel:
         session.commit()
         session.refresh(image)
 
-        assert image.guid is not None
+        assert image.uid is not None
         assert image.title == image_data["title"]
 
     def test_bulk_create_images(self, session):
@@ -73,7 +73,7 @@ class TestImageModel:
         session.commit()
 
         updated = session.exec(
-            select(ImageModel).where(ImageModel.guid == image.guid)
+            select(ImageModel).where(ImageModel.uid == image.uid)
         ).first()
         assert updated.title == "New Title"
 
@@ -88,7 +88,7 @@ class TestImageModel:
         session.commit()
 
         deleted = session.exec(
-            select(ImageModel).where(ImageModel.guid == image.guid)
+            select(ImageModel).where(ImageModel.uid == image.uid)
         ).first()
         assert deleted is None
 
