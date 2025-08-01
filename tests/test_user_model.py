@@ -1,6 +1,8 @@
 import uuid
+
 import pytest
 from sqlmodel import select
+
 from models.user import UserModel
 
 
@@ -73,30 +75,32 @@ class TestUserModel:
         assert len(result) == 3
 
     def test_select_user_model_by_email(self, session):
-        session.add_all([
-            UserModel(
-                first_name="Match",
-                middle_name="One",
-                last_name="Example",
-                email="match1@example.com",
-                phone="4444444444",
-                password="x",
-                is_active=True,
-                is_superuser=False,
-                is_verified=False,
-            ),
-            UserModel(
-                first_name="Special",
-                middle_name="One",
-                last_name="Example",
-                email="special@example.com",
-                phone="5555555555",
-                password="x",
-                is_active=False,
-                is_superuser=True,
-                is_verified=True,
-            ),
-        ])
+        session.add_all(
+            [
+                UserModel(
+                    first_name="Match",
+                    middle_name="One",
+                    last_name="Example",
+                    email="match1@example.com",
+                    phone="4444444444",
+                    password="x",
+                    is_active=True,
+                    is_superuser=False,
+                    is_verified=False,
+                ),
+                UserModel(
+                    first_name="Special",
+                    middle_name="One",
+                    last_name="Example",
+                    email="special@example.com",
+                    phone="5555555555",
+                    password="x",
+                    is_active=False,
+                    is_superuser=True,
+                    is_verified=True,
+                ),
+            ]
+        )
         session.commit()
 
         from sqlalchemy import func
