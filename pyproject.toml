@@ -9,7 +9,11 @@ exclude = '''
   | \.pytest_cache
   | \.git
   | \.tox
+<<<<<<< HEAD
   | env
+=======
+  | venv
+>>>>>>> main
   | build
   | dist
 )/
@@ -25,4 +29,4 @@ combine_as_imports = true
 use_parentheses = true
 known_first_party = ["app", "models", "schemas"]
 known_third_party = ["fastapi", "sqlmodel", "pydantic", "sqlalchemy"]
-skip = ["env", ".venv", "migrations"]
+skip = ["venv", ".venv", "migrations"]

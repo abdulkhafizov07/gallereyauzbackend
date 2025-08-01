@@ -13,3 +13,4 @@ bcrypt
 alembic
 aiosqlite
 python-dotenv
+orjson

@@ -4,7 +4,7 @@ pipeline {
   }
 
   environment {
-    VENV = "${WORKSPACE}/env"
+    VENV = "${WORKSPACE}/venv"
     PYTHON = "${VENV}/bin/python"
     UVICORN = "${VENV}/bin/uvicorn"
     ENTRYPOINT = "main:app"
@@ -20,9 +20,9 @@ pipeline {
     stage('Install Dependencies') {
       steps {
         sh '''
-          if [ ! -d env ]; then
+         if [ ! -d venv ]; then
             echo "Creating virtual environment"
-            python3 -m venv env
+            python3 -m venv venv
           fi
           make install-dev
         '''

@@ -1,4 +1,4 @@
-VENV = env
+VENV = venv
 PIP = $(VENV)/bin/pip
 
 .PHONY: build dev install install-dev format lint test clean ci
