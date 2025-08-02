@@ -11,9 +11,9 @@ set -x
 
 cd /home/a/gallereya/backend
 
-if [ ! -d "env" ]; then
+if [ ! -d "venv" ]; then
   echo "Creating Python venv..."
-  python3.12 -m venv env
+  python3.12 -m venv venv
 fi
 
 make clean
@@ -21,7 +21,9 @@ rm /home/a/gallereya/backend/alembic/versions/*
 EOF
 
 rsync -avz \
+  --exclude='venv' \
   --exclude='env' \
+  --exclude='.venv' \
   --exclude='.git' \
   --exclude='tests' \
   ./ a@10.0.18.23:/home/a/gallereya/backend

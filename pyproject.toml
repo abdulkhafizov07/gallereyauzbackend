@@ -9,6 +9,7 @@ exclude = '''
   | \.pytest_cache
   | \.git
   | \.tox
+  | env
   | venv
   | build
   | dist

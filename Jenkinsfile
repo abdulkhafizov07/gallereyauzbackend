@@ -57,7 +57,6 @@ pipeline {
       when {
         branch 'main'
       }
-
       steps {
         sshagent(['deploy-local-server-1823']) {
           sh './deploy.sh'
